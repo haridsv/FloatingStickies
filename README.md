@@ -4,6 +4,8 @@ Floating Sticky notes that stay on top of all other apps! Easily dock them to th
 
 Massive thanks to Mark Wei for his StandOut Library.
 
+![RoundR](http://i.imgur.com/S9PN4Wf.png)
+
 ### Features
  - On top of all other apps (access from anywhere)
  - Dock to the side & resize
