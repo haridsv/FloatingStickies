@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Floating Stickies</string>
+    <color name="back">#f8f8b6</color>
+    <color name="white">#99FFFFFF</color>
+    <color name="black">#55000000</color>
+    <string name="update">Update v20.0</string>
+
+</resources>
