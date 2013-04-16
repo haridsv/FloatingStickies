@@ -19,12 +19,16 @@ package genius.mohammad.floating.stickies;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -65,7 +69,7 @@ public class MultiWindow extends StandOutWindow {
 		});
 	}
 
-	// every window is initially same size
+	// every window is initially the same size
 	@Override
 	public StandOutLayoutParams getParams(int id, Window window) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -84,18 +88,49 @@ public class MultiWindow extends StandOutWindow {
 		return new StandOutLayoutParams(id, (int) pxFromDp(150), (int) pxFromDp(150), StandOutLayoutParams.CENTER, StandOutLayoutParams.CENTER, (int) pxFromDp(120), (int) pxFromDp(120));
 	}
 
+	@SuppressLint("InlinedApi")
+	@SuppressWarnings("deprecation")
+	@Override
+	public Notification getPersistentNotification(int id) {
+		int icon = getAppIcon();
+		long when = System.currentTimeMillis();
+		Context c = getApplicationContext();
+		String contentTitle = getPersistentNotificationTitle(id);
+		String contentText = getPersistentNotificationMessage(id);
+
+		Intent notificationIntent = getPersistentNotificationIntent(id);
+
+		PendingIntent contentIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		// 4.1+ Low priority notification
+		final int apiLevel = Build.VERSION.SDK_INT;
+		if (apiLevel >= 16) {
+			Notification.Builder mBuilder = new Notification.Builder(this).setSmallIcon(getAppIcon()).setContentTitle(contentTitle).setContentText(contentText).setPriority(Notification.PRIORITY_MIN).setContentIntent(contentIntent);
+			return mBuilder.build();
+		}
+
+		String tickerText = String.format("%s: %s", contentTitle, contentText);
+
+		Notification notification = new Notification(icon, tickerText, when);
+		notification.setLatestEventInfo(c, contentTitle, contentText, contentIntent);
+
+		return notification;
+	}
+
+	/**
+	 * Changes the stickies to transparent when unfocused (commented out)
+	 */
 	@Override
 	public boolean onFocusChange(int id, Window window, boolean focus) {
 		if (focus) {
 			window.findViewById(R.id.body).getBackground().setAlpha(255);
-			window.findViewById(R.id.window).getBackground().setAlpha(127);
+			window.findViewById(R.id.window).getBackground().setAlpha(100);
 			window.findViewById(R.id.titlebar).getBackground().setAlpha(255);
 		} else {
-			window.findViewById(R.id.body).getBackground().setAlpha(127);
-			window.findViewById(R.id.window).getBackground().setAlpha(0);
-			window.findViewById(R.id.titlebar).getBackground().setAlpha(127);
+			window.findViewById(R.id.body).getBackground().setAlpha(160);
+			window.findViewById(R.id.window).getBackground().setAlpha(80);
+			window.findViewById(R.id.titlebar).getBackground().setAlpha(160);
 		}
-		Log.d("focus", "" + focus);
 		return false;
 	}
 
@@ -123,11 +158,14 @@ public class MultiWindow extends StandOutWindow {
 		return StandOutWindow.getCloseAllIntent(this, getClass());
 	}
 
+	/**
+	 * Close sticky on back button (commented out)
+	 */
 	@Override
 	public boolean onKeyEvent(int id, Window window, KeyEvent event) {
 		if (event.getAction() == KeyEvent.ACTION_UP) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-				close(id);
+				// close(id);
 			}
 		}
 		return false;

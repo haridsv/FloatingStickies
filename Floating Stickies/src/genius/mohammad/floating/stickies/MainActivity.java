@@ -197,6 +197,12 @@ public class MainActivity extends Activity implements OnTouchListener {
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+		finish();
+	}
+
+	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			Animation anim = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
