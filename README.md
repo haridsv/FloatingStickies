@@ -2,7 +2,7 @@ FloatingStickies
 ================
 Floating Sticky notes that stay on top of all other apps! Easily dock them to the left side to keep your screen real-estate at full potential. Useful for quick note taking. Closing a note will delete its text.  All stickies are auto-saved!
 
-Massive thanks to Mark Wei for his StandOut Library.
+Massive thanks to Mark Wei for his StandOut Library. Floating Stickies is licensed under Apache 2.0
 
 ![RoundR](http://i.imgur.com/S9PN4Wf.png)
 
