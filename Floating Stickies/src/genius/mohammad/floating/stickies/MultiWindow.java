@@ -127,9 +127,9 @@ public class MultiWindow extends StandOutWindow {
 			window.findViewById(R.id.window).getBackground().setAlpha(100);
 			window.findViewById(R.id.titlebar).getBackground().setAlpha(255);
 		} else {
-			// window.findViewById(R.id.body).getBackground().setAlpha(160);
-			// window.findViewById(R.id.window).getBackground().setAlpha(80);
-			// window.findViewById(R.id.titlebar).getBackground().setAlpha(160);
+			window.findViewById(R.id.body).getBackground().setAlpha(160);
+			window.findViewById(R.id.window).getBackground().setAlpha(80);
+			window.findViewById(R.id.titlebar).getBackground().setAlpha(160);
 		}
 		return false;
 	}
